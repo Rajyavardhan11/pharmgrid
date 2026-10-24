@@ -1203,12 +1203,7 @@ function loginPage(message = '', isSuccess = false) {
                 <input name="password" type="password" autocomplete="current-password" required placeholder="••••••••••••">
               </label>
               <button class="primary wide" type="submit">Sign in securely <b>→</b></button>
-              <div class="demo-box" style="margin-top:14px;padding:10px 12px;background:#f3eee5;border-radius:6px;font-size:11px;line-height:1.4">
-                <span style="font-weight:700;color:#2c4031;display:block;margin-bottom:3px">★ Quick Sign-In Options:</span>
-                <div>Admin: <code>rajyavardhanchauhan01@gmail.com</code> / <code>RajAdmin!2026Secure#82</code></div>
-                <div style="margin-top:4px;color:#666">Or click <b>Create Account / Register</b> above to register any new staff/admin.</div>
-              </div>
-              <small style="margin-top:10px">Session is secured via an HttpOnly cookie. Your password is never saved in browser storage.</small>
+              <small style="margin-top:14px;display:block">Session is secured via an HttpOnly cookie. Your password is never saved in browser storage.</small>
             </form>
           ` : `
             <form id="register-form">
