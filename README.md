@@ -1,3 +1,5 @@
+Live link: https://pharmgrid.onrender.com/
+
 # PharmGrid · High-Reliability Pharmacy Operations Console
 
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](docker-compose.yml)
