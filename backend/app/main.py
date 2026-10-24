@@ -1,6 +1,8 @@
 import hashlib
 import json
+import os
 import uuid
+from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from fastapi import Depends, FastAPI, Header, HTTPException, Request, Response
@@ -44,7 +46,25 @@ from .services import checkout
 
 IST = ZoneInfo("Asia/Kolkata")
 
-app = FastAPI(title="PharmGrid API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Ensure database schema is present and initial starter admin exists
+    try:
+        from .bootstrap import seed_admin_and_starter_data
+        from .database import Base, SessionLocal, engine
+        Base.metadata.create_all(bind=engine)
+        admin_email = os.getenv("BOOTSTRAP_ADMIN_EMAIL", "rajyavardhanchauhan01@gmail.com")
+        admin_pass = os.getenv("BOOTSTRAP_ADMIN_PASSWORD", "RajAdmin!2026Secure#82")
+        with SessionLocal.begin() as db:
+            seed_admin_and_starter_data(db, admin_email, admin_pass)
+        print(f"Startup DB init complete. Admin: {admin_email}", flush=True)
+    except Exception as exc:
+        print(f"Startup DB init notice (non-fatal): {exc}", flush=True)
+    yield
+
+
+app = FastAPI(title="PharmGrid API", version="1.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings().cors_origins.split(","),
