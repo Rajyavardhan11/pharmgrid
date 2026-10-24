@@ -1,0 +1,14 @@
+# Copy this file to terraform.tfvars and customize for your AWS environment
+# Never commit credentials, passwords, or secrets to this file.
+
+aws_region                 = "ap-south-1"
+project_name               = "pharmgrid"
+environment                = "production"
+root_domain                = "pharmgrid.in"
+app_subdomain              = "app.pharmgrid.in"
+monthly_budget_usd         = 18
+budget_notification_emails = ["admin@pharmgrid.in"]
+alert_sender_email         = "alerts@pharmgrid.in"
+ec2_instance_type          = "t4g.small"
+db_instance_class          = "db.t4g.micro"
+db_allocated_storage_gb    = 20

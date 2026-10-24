@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16.6-alpine
+    environment:
+      POSTGRES_DB: pharmgrid
+      POSTGRES_USER: pharmgrid_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    networks: [data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pharmgrid_app -d pharmgrid"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  api_a:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    environment: &app_env
+      DATABASE_URL: postgresql+psycopg://pharmgrid_app:${POSTGRES_PASSWORD}@postgres:5432/pharmgrid
+      JWT_SECRET: ${JWT_SECRET:?set in .env}
+      EMAIL_TRANSPORT: ${EMAIL_TRANSPORT:-fake}
+      SES_SENDER: ${SES_SENDER:-}
+      ENVIRONMENT: production
+    depends_on: {postgres: {condition: service_healthy}}
+    networks: [ingress, data]
+    restart: unless-stopped
+    mem_limit: 512m
+  api_b:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    environment: *app_env
+    depends_on: {postgres: {condition: service_healthy}}
+    networks: [ingress, data]
+    restart: unless-stopped
+    mem_limit: 512m
+  worker:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    command: ["python", "-m", "app.worker"]
+    environment: *app_env
+    depends_on: {postgres: {condition: service_healthy}}
+    networks: [data]
+    restart: unless-stopped
+    mem_limit: 384m
+  proxy:
+    image: haproxy:3.1-alpine
+    ports: ["80:8080"]
+    volumes: [./infra/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro]
+    depends_on: [api_a, api_b]
+    networks: [ingress]
+    restart: unless-stopped
+    mem_limit: 128m
+networks:
+  ingress: {}
+  data:
+    internal: true
+volumes:
+  postgres_data: {}

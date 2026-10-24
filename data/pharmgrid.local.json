@@ -1,0 +1,62 @@
+{
+  "invoices": [
+    {
+      "invoiceId": "INV-1030",
+      "checkoutId": "bb3ae0cf-9ff0-41b8-afa3-69f24d7dd094",
+      "totalPaise": 32000,
+      "businessDate": "2026-10-24",
+      "synthetic": true
+    },
+    {
+      "invoiceId": "INV-1031",
+      "checkoutId": "84816d89-c571-4dff-86a6-e9554b3e93d2",
+      "totalPaise": 86000,
+      "businessDate": "2026-10-24",
+      "synthetic": true
+    }
+  ],
+  "commands": {
+    "test-safe-key-01": {
+      "hash": "d7f7aff9e95e17a3aeab1b726007ef93db9902580683b87ee168e949ba78b3b1",
+      "response": {
+        "invoice": {
+          "invoiceId": "INV-1030",
+          "checkoutId": "bb3ae0cf-9ff0-41b8-afa3-69f24d7dd094",
+          "totalPaise": 32000,
+          "businessDate": "2026-10-24",
+          "synthetic": true
+        },
+        "replayed": false,
+        "safety": "LOCAL_DEMO_NOT_POSTGRES"
+      }
+    },
+    "sale_8df2-98c1": {
+      "hash": "d7b5d4a77e2478804c2e4dea4aab3245d022109d66c3a2005ea415f58e2e9fb5",
+      "response": {
+        "invoice": {
+          "invoiceId": "INV-1031",
+          "checkoutId": "84816d89-c571-4dff-86a6-e9554b3e93d2",
+          "totalPaise": 86000,
+          "businessDate": "2026-10-24",
+          "synthetic": true
+        },
+        "replayed": false,
+        "safety": "LOCAL_DEMO_NOT_POSTGRES"
+      }
+    }
+  },
+  "audit": [
+    {
+      "at": "2026-10-24T10:02:01.668Z",
+      "type": "SALE_COMMITTED_LOCAL_DEMO",
+      "key": "test-safe-key-01",
+      "invoiceId": "INV-1030"
+    },
+    {
+      "at": "2026-10-24T10:05:22.617Z",
+      "type": "SALE_COMMITTED_LOCAL_DEMO",
+      "key": "sale_8df2-98c1",
+      "invoiceId": "INV-1031"
+    }
+  ]
+}

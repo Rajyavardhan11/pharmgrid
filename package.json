@@ -1,0 +1,15 @@
+{
+  "name": "pharmgrid-demo",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node server.mjs",
+    "test": "npm run test:frontend && npm run test:api",
+    "test:api": "node --test test/api.test.mjs",
+    "test:frontend": "node --test test/frontend-auth.test.mjs"
+  },
+  "devDependencies": { "vite": "^6.1.0" }
+}

@@ -1,0 +1,38 @@
+# Environment & Secrets (NEVER COMMIT)
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/.venv/
+.venv/
+env/
+venv/
+ENV/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Terraform sensitive files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# OS & Editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
