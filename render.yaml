@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: pharmgrid
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: free
+    region: singapore
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pharmgrid-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENVIRONMENT
+        value: production
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        value: rajyavardhanchauhan01@gmail.com
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        value: RajAdmin!2026Secure#82
+
+databases:
+  - name: pharmgrid-db
+    databaseName: pharmgrid
+    user: pharmgrid_user
+    plan: free
+    region: singapore
